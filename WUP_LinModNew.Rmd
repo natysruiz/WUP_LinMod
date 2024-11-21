@@ -64,12 +64,26 @@ The 95% prediction interval is from -1.7 to 3.1 for sim score.
 
 
 ### Numerical results 
+```{r}
+cor(SIMS~GRIP,data=data)
+```
 
+The correlation is 0.64, which shows that grip strentgh is related to simulated
+strength score.
 
 ### Inferential  (Build model.2)
-  
+```{r}
+model.2 <- lm(SIMS~GRIP,data=data)
+summary.lm(model.2)
+``` 
+Based on the results , I reject the null hypothesis because the p-value is to small as show in the numbers above.
 
 #### predict model.2 at target point
+```{r}
+newdata = data.frame(ARM=88, GRIP=94)
+predict(model.2, newdata, interval="predict")
+```
+The 95% prediction interval is from -3.1 to 2.0.
 
 #### now add the model fit to our plot for model.2
   
@@ -79,12 +93,26 @@ The 95% prediction interval is from -1.7 to 3.1 for sim score.
 
 ### Numerical results (cor)
 
-`
+```{r}
+cor(SIMS~ARM+GRIP,data=data)
+```
   
 ### Inferential  (Build 2-dimentional model.3)
+```{r}
+model.3 <- lm(SIMS~ARM+GRIP,data=data)
+summary.lm(model.3)
+``` 
+```{r}
+model.3 <- lm(SIMS~ARM+GRIP,data=data)
+```
+As arm + grip strength goes up the simulation indicates that the sim goes up as well, we reject the null hypothesis because the p-value is so small.Both coefficients are significant.
 
 #### predict model.3 at target point
   
+```{r}
+newdata = data.frame(ARM=88, GRIP=94)
+predict(model.3, newdata, interval="predict")
+```
 
 ## Comparing nested models ANOVA Test
 
@@ -92,4 +120,15 @@ The 95% prediction interval is from -1.7 to 3.1 for sim score.
 ### Model.2 vs Model.3
 
 ## Informally compare Model.1 with model.2
+```{r}
+anova(model.1, model.3)
+```
+ The p-value is .000000049, so we reject the null hypotheis.
+```{r}
+anova(model.2, model.3)
+```
+Model 3 is smaller than model 2 because the RSS for model 3 is smaller.
 
+# Discussion and Conclusion
+
+All in all, model 3 is the best because it has a smaller RSS than both model 1 and model 2. Model 1 is better than model 2, but in order for it to be better, it would need a smaller RSS. In the end, we are rejecting the null hypothesis and model 3 is the best overall.
