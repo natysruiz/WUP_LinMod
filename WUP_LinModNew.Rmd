@@ -36,12 +36,24 @@ data <- read.csv(file="https://onlinestatbook.com/case_studies_rvls/physical_str
 ### scatterplot
 
 ### Numerical results
-
-
+```{r}
+cor(SIMS~ARM,data=data)
+```
+The correlation is 0.68 which is showing the arm strength is related to the 
+sim score.
 ### Inferential  (Build model.1)
-
+```{r}
+model.1 <- lm(SIMS~ARM,data=data)
+summary.lm(model.1)
+```
+We reject the null hypothesis,because both the intecept and coefficient of ARM strength are both significantly 
+different than 0.
 #### Predict at target point
-
+```{r}
+newdata = data.frame(ARM=88, GRIP=94)
+predict(model.1, newdata, interval="predict")
+```
+The 95% prediction interval is from -1.7 to 3.1 for sim score.
 
 #### scatterplot with model fit
   
